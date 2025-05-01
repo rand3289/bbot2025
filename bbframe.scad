@@ -3,6 +3,9 @@
 // Outer diameter of the 608 bearing is 22mm
 // Outer diameter of the 1/2" pvc pipe is 21.3mm
 
+// TODO: move the bearing in the hingebridge closer to center by extending the bearing block.
+// This way brake pad arm holes can be closer to disk centers
+
 use <bcstr.scad>
 include <BOSL2/std.scad>
 include <BOSL2/gears.scad>
@@ -140,6 +143,17 @@ module dgear(){
 }
 
 
+module servoMount(){
+    difference(){
+        t(0,0,3) b(20,12,16+10);                // mount with holes
+        t(0,0,-10.7) rx() c(20,21.4); // pvc pipe cutout
+        t(0,3,15.1)  b(1.5,10,2);    // servo slot on top
+        t(5,3,0)   c(50,3); // servo mounting hole
+        t(-5,3,0)  c(50,3); // servo mounting hole
+    }
+}
+
+
 if($preview){
     t(120,0,0) r(90,90,0) flatten() frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
@@ -153,6 +167,7 @@ if($preview){
 %   t(0,-330,0) rx() c(200,21.5);   // leg pvc pipe / visual aid
 %   t(0,-75,0)r(90,0,0) c(83,21.5); // pvc pipe / visual aid
     dgear();
+    t(0, 90, 0) servoMount();
 } else { // rendering for 3D printing
     flatten() frame();
     t(-70,-40,0) cap();
