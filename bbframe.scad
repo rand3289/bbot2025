@@ -145,11 +145,13 @@ module dgear(){
 
 module servoMount(){
     difference(){
-        t(0,0,3) b(20,12,16+10);                // mount with holes
+        t(0,0,3)     b(20,12,26);     // mount with holes
         t(0,0,-10.7) rx() c(20,21.4); // pvc pipe cutout
-        t(0,3,15.1)  b(1.5,10,2);    // servo slot on top
-        t(5,3,0)   c(50,3); // servo mounting hole
-        t(-5,3,0)  c(50,3); // servo mounting hole
+        t(0,3,15.1)  b(1.5,10,2);     // servo slot on top
+        t(5,3,0)     c(50,3);         // servo mounting hole
+        t(-5,3,0)    c(50,3);         // servo mounting hole
+        t(0,-8,8)    r(-11.75,0,0) b(22,10,30); // face cut
+        t(0,-9.5,0)     b(22,10,30);  // vertical face cut
     }
 }
 
@@ -165,7 +167,7 @@ if($preview){
     t(60, -195, 0) r(0,-90,0) cap();
     t(0,-130,0) leg();
 %   t(0,-330,0) rx() c(200,21.5);   // leg pvc pipe / visual aid
-%   t(0,-75,0)r(90,0,0) c(83,21.5); // pvc pipe / visual aid
+%   t(0,-76,0)r(90,0,0) c(83,21.5); // pvc pipe / visual aid
     dgear();
     t(0, 90, 0) servoMount();
 } else { // rendering for 3D printing
