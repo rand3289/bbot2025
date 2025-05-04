@@ -71,8 +71,8 @@ module hingeBridge(){
 
 module hingeBridgeSupported(){ // supported for 3D printing
     hingeBridge();
-    t(32,0,-6.5)  sq_pipe(2,5,3,0.3); //  print support
-    t(-32,0,-6.5) sq_pipe(2,5,3,0.3); //  print support
+    t(24,0,-6.5)  sq_pipe(2,5,3,0.3); //  print support
+    t(-24,0,-6.5) sq_pipe(2,5,3,0.3); //  print support
 }
 
 module hingeSide(){
@@ -151,7 +151,7 @@ module servoMount(){
         t(5,3,0)     c(50,3);         // servo mounting hole
         t(-5,3,0)    c(50,3);         // servo mounting hole
         t(0,-8,8)    r(-11.75,0,0) b(22,10,30); // face cut
-        t(0,-9.5,0)     b(22,10,30);  // vertical face cut
+        t(0,-9.5,0)  b(22,10,30);  // vertical face cut
     }
 }
 
@@ -178,5 +178,7 @@ if($preview){
     t(0,-50,0) hingeBridgeSupported();
     t(80,80,0) dgear();
     t(40,80,0) dgear();
-    t(0,80,0) dgear();
+    t(0,80,0)  dgear();
+    t(-40,80,0) r(180,0,0) servoMount();
+    t(-80,80,0) r(180,0,0) servoMount();
 }
