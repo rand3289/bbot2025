@@ -3,9 +3,6 @@
 // Outer diameter of the 608 bearing is 22mm
 // Outer diameter of the 1/2" pvc pipe is 21.3mm
 
-// TODO: move the bearing in the hingebridge closer to center by extending the bearing block.
-// This way brake pad arm holes can be closer to disk centers
-
 use <bcstr.scad>
 include <BOSL2/std.scad>
 include <BOSL2/gears.scad>
@@ -55,17 +52,17 @@ module hingeBridge(){
         union(){
             b(w,8,16);    // beam
             b(w+16,5,10); // attachment points on both sides
-            flatten() t(0,12,0) r(90,0,0) c(32,25); // bearing block
-            t(0,12,-4) b(25,32,8); // makes bearing block square
+            flatten() t(0,15,0) r(90,0,0) c(38,25); // bearing block
+            t(0,15,-4) b(25,38,8); // makes bearing block square
         }
-        t(0,8.5,0)  r(90,0,0)  c(36,21.5); // pipe hole
-        t(0,22.5,0) r(90,0,0)  c(8,22);    // bearing hole
+        t(0,11.5,0) r(90,0,0)  c(42,21.5); // pipe hole
+        t(0,28.5,0) r(90,0,0)  c(8,22);    // bearing hole
         r(90,0,0)   c(100,11);             // shaft hole
         t(d,0,0)    r(90,0,0)  c(16,3);    // screw hole
         t(-d,0,0)   r(90,0,0)  c(16,3);    // screw hole
         t(0,0,13.3) c(4,3);                // screw hole in bearing block. 13.3 for "print support"
-        t(-10,15,0) c(30,3);               // brake mounting hole in bearing block
-        t(10,15,0)  c(30,3);               // brake mounting hole in bearing block
+        t(-10,20,0) c(30,3);               // brake mounting hole in bearing block
+        t(10,20,0)  c(30,3);               // brake mounting hole in bearing block
     }
 }
 
@@ -84,7 +81,7 @@ module hingeSide(){
         r(0,90,0) c(10,25.5);       // hinge hole
         t(0,l-4,0) b(12,5.2,10.2);  // bridge hole with tolerance added
         t(0,l,0) r(90,0,0) c(30,3); // screw hole
-        t(1.5,38,0) c(30,3);        // brake mounting hole
+        t(1.5,33,0) c(30,3);        // brake mounting hole
     }
 }
 
@@ -126,7 +123,7 @@ module dgear(){
     disk_od = 95;
     disk_id = 25;
     disk_h  = 1.25;
-    gteeth  = 20;
+    gteeth  = 19;
     shaft_round = 8; // 608 bearings fit an 8mm round shaft
     // if you grind an end of a round shaft into a square, it will be this size
     shaft_square = sqrt(shaft_round*shaft_round/2);
@@ -167,7 +164,7 @@ if($preview){
     t(60, -195, 0) r(0,-90,0) cap();
     t(0,-130,0) leg();
 %   t(0,-330,0) rx() c(200,21.5);   // leg pvc pipe / visual aid
-%   t(0,-76,0)r(90,0,0) c(83,21.5); // pvc pipe / visual aid
+%   t(0,-74,0)r(90,0,0) c(91,21.5); // pvc pipe / visual aid
     dgear();
     t(0, 90, 0) servoMount();
 } else { // rendering for 3D printing
