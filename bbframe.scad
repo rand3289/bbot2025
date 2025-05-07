@@ -1,7 +1,7 @@
 // BrakerBot Apr 2025 toandrey(at)yahoo.com
 // Uses 1/2" pvc pipe, 608 bearings, 95mm disks from Hard Drives, HS300 servos
 // Outer diameter of the 608 bearing is 22mm
-// Outer diameter of the 1/2" pvc pipe is 21.3mm
+// Outer diameter of the 1/2" pvc pipe is 21.5mm
 
 use <bcstr.scad>
 include <BOSL2/std.scad>
@@ -34,9 +34,7 @@ module frame(){
             t(29,0,0)  r(0,90,0) c(24,25); // bearing block
             t(-d,0,0) r(0,90,0) c(32,25);  // bearing block
         }
-        t(d,0,0)  r(0,90,0) c(29,21.5);  // pipe hole
-        t(22.5,0,0)  r(0,90,0) c(8,22);  // bearing hole
-
+        t(d,0,0)  r(0,90,0) c(29,22);  // pipe and bearing hole
         t(-d,0,0) r(0,90,0) c(29,22);  // bearing hole
         t(5,0,0)  r(0,90,0) c(100,11); // shaft hole
         t(8,0,0)  r(90,0,0) c(200,3);  // bracket screw hole
@@ -55,8 +53,7 @@ module hingeBridge(){
             flatten() t(0,15,0) r(90,0,0) c(38,25); // bearing block
             t(0,15,-4) b(25,38,8); // makes bearing block square
         }
-        t(0,11.5,0) r(90,0,0)  c(42,21.5); // pipe hole
-        t(0,28.5,0) r(90,0,0)  c(8,22);    // bearing hole
+        t(0,11.5,0) r(90,0,0)  c(42,22);   // pipe and bearing hole
         r(90,0,0)   c(100,11);             // shaft hole
         t(d,0,0)    r(90,0,0)  c(16,3);    // screw hole
         t(-d,0,0)   r(90,0,0)  c(16,3);    // screw hole
@@ -98,11 +95,11 @@ module leg(){
             b(26,8,h);
             t(0,6,0) r(90,0,0) c(20,25);
         }
-        t(0,9,0)  r(90,0,0) c(20,21.5); // pipe mounting hole
-        t(0,10,0) r(0,90,0) c(30,3);    // pipe screw hole
-        t(0,10,0)           c(30,3);    // pipe screw hole
-        t(8,0,0)  r(90,0,0) c(20,3);    // leg attachment screw hole
-        t(-8,0,0) r(90,0,0) c(20,3);    // leg attachment screw hole
+        t(0,9,0)  r(90,0,0) c(20,22); // pipe mounting hole
+        t(0,10,0) r(0,90,0) c(30,3);  // pipe screw hole
+        t(0,10,0)           c(30,3);  // pipe screw hole
+        t(8,0,0)  r(90,0,0) c(20,3);  // leg attachment screw hole
+        t(-8,0,0) r(90,0,0) c(20,3);  // leg attachment screw hole
     }
 }
 
@@ -143,7 +140,7 @@ module dgear(){
 module servoMount(){
     difference(){
         t(0,0,3)     b(20,12,26);     // mount with holes
-        t(0,0,-10.7) rx() c(20,21.4); // pvc pipe cutout
+        t(0,0,-10.7) rx() c(20,21.5); // pvc pipe cutout
         t(0,3,15.1)  b(1.5,10,2);     // servo slot on top
         t(5,3,0)     c(50,3);         // servo mounting hole
         t(-5,3,0)    c(50,3);         // servo mounting hole
