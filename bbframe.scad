@@ -150,6 +150,27 @@ module servoMount(){
 }
 
 
+module pad(){
+    difference(){
+        union(){
+            c(15,30);
+            t(-12, 10,0) c(15,6);
+            t(-12,-10,0) c(15,6);
+        }
+        t(-1,0,0) c(13,25); // scoop
+        t(-12, 10,0) c(20,3); // screw hole
+        t(-12,-10,0) c(20,3); // screw hole
+        t(-12,-11,0) b(10,7,4); // cutout
+        t(6,0,0) b(30,40,20); // big block
+//        t(0,15,0) b(30,30,30); // thickness checker
+        t(-21,0,0) difference(){
+            c(1,20);
+            c(1,18.4);
+        } // pin holes for attaching a brakepad
+    }
+}
+
+
 if($preview){
     t(120,0,0) r(90,90,0) flatten() frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
@@ -164,6 +185,7 @@ if($preview){
 %   t(0,-74,0)r(90,0,0) c(91,21.5); // pvc pipe / visual aid
     dgear();
     t(0, 90, 0) servoMount();
+    t(21.5,-43, -17) pad();
 } else { // rendering for 3D printing
     flatten() frame();
     t(-70,-40,0) cap();
@@ -175,4 +197,8 @@ if($preview){
     t(0,80,0)  dgear();
     t(-40,80,0) r(180,0,0) servoMount();
     t(-80,80,0) r(180,0,0) servoMount();
+    t(-60,40,0) r(0,90,0) pad();
+    t(-90,40,0) r(0,90,0) pad();
+    t(-120,40,0) r(0,90,0) pad();
+    t(-90,0,0) r(0,90,0) pad();
 }
