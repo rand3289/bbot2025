@@ -153,11 +153,11 @@ module servoMount(){
 module pad(){
     difference(){
         union(){
-            c(15,30);
-            t(-12, 10,0) c(15,6);
-            t(-12,-10,0) c(15,6);
+            c(16,30);
+            t(-12, 10,0) c(16,6);
+            t(-12,-10,0) c(16,6);
         }
-        t(-1,0,0) c(13,25); // scoop
+        t(-1,0,0) c(14,25); // scoop
         t(-12, 10,0) c(20,3); // screw hole
         t(-12,-10,0) c(20,3); // screw hole
         t(-12,-11,0) b(10,7,4); // cutout
@@ -185,7 +185,8 @@ if($preview){
 %   t(0,-74,0)r(90,0,0) c(91,21.5); // pvc pipe / visual aid
     dgear();
     t(0, 90, 0) servoMount();
-    t(21.5,-43, -17) pad();
+    t(21.5,-43, -18) pad();
+    t(8,-43,-18) r(0,180,0) pad();
 } else { // rendering for 3D printing
     flatten() frame();
     t(-70,-40,0) cap();
