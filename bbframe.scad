@@ -139,12 +139,16 @@ module dgear(){
 
 module servoMount1(){
     difference(){
-        t(0,0,3)     b(20,12,26);     // mount with holes
+        union(){
+            t(0,0,3)         b(20,12,26); // mount with holes
+            t(11.5,20,13.5)  b(3,45,5);   // connecting bars
+            t(-11.5,20,13.5) b(3,45,5);
+        }
         t(0,0,-10.7) rx() c(20,21.5); // pvc pipe cutout
-        t(0,3,15.1)  b(1.8,10,2);     // servo slot on top
+        t(0,3,15.1)  b(1.8,10,3);     // servo slot on top
         t(5,3,0)     c(50,3);         // servo mounting hole
         t(-5,3,0)    c(50,3);         // servo mounting hole
-        t(0,-8,8)    r(-11.75,0,0) b(22,10,30); // face cut
+        t(0,-8,8)    r(-11.75,0,0) b(30,10,30); // face cut
         t(0,-9.5,0)  b(22,10,30);     // vertical face cut
     }
 }
@@ -153,8 +157,6 @@ module servoMount(){
     union(){
         servoMount1();
         t(0,60,0)r(0,0,180) servoMount1();
-        t(11.5,30,13.5) b(3,62.45,5);
-        t(-11.5,30,13.5) b(3,62.45,5);
     }
 }
 
