@@ -137,7 +137,7 @@ module dgear(){
 }
 
 
-module servoMount1(){
+module servoMountHalf(){
     difference(){
         union(){
             t(0,0,3)         b(20,12,26); // mount with holes
@@ -155,8 +155,8 @@ module servoMount1(){
 
 module servoMount(){
     union(){
-        servoMount1();
-        t(0,60,0)r(0,0,180) servoMount1();
+        servoMountHalf();
+        t(0,53.7,0) r(0,0,180) servoMountHalf();
     }
 }
 
