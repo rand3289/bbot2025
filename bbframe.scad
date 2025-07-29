@@ -1,10 +1,10 @@
 // BrakerBot2025 toandrey(at)yahoo.com
 // Uses 1/2" pvc pipe, 608 bearings, 95mm disks from Hard Drives, HS300 servos
+// five 608 bearings are used at every joint
 // Outer diameter of the 608 bearing is 22mm
 // Outer diameter of the 1/2" pvc pipe is 21.5mm
 
-use <bcstr.scad>
-use <bbbrake.scad>
+use <bcstr.scad> // b(),c(),s(),t(),r()
 include <BOSL2/std.scad>
 include <BOSL2/gears.scad>
 $fn=128; // make cylinders a bit rounder
@@ -143,15 +143,19 @@ if($preview){
     t(120,0,0) r(90,90,0) hingeAssembly();
     flatten() frame();
     hingeAssembly();
-    t(0,-195,0) flatten() frame();
-    t(0,-195,0) hingeAssembly();
+    t(0,-195,0) r(0,0,180) flatten() frame();
+    t(0,-195,0) r(0,0,180) hingeAssembly();
 
-    t(60, -195, 0) r(0,-90,0) cap();
-    t(0,-130,0) legCap();
-%   t(0,-330,0) rx() c(200,21.5);   // leg pvc pipe / visual aid
-%   t(0,-74,0)r(90,0,0) c(91,21.5); // pvc pipe / visual aid
-    dgear();
-    t(0, 90, 0) servoMount();
+    t(-60,-195,0) r(0,90,0) cap();
+    t(0,-260,0) r(180,0,0) legCap();
+
+    t(0,-180,0) r(90,0,0) dgear();
+    t(-15,-195,0) r(90,0,90) dgear();
+    t(15,-195,0) r(90,0,-90) dgear();
+
+%   t(0,-360,0) rx() c(200,21.5);     // pvc pipe
+%   t(0,-98,0) r(90,0,0) c(140,21.5); // pvc pipe
+%   t(60,0,0) r(0,90,0) c(66,21.5);   // pvc pipe
 } else { // rendering for 3D printing
     flatten() frame();
     t(120,40,0) cap();
