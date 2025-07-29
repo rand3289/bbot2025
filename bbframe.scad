@@ -1,6 +1,9 @@
 // BrakerBot2025 toandrey(at)yahoo.com
+// Brakes actuated by servo motors (not shown) transfer torque from disks to limbs
 // Uses 1/2" pvc pipe, 608 bearings, 95mm disks from Hard Drives, HS300 servos
-// five 608 bearings are used at every joint
+// Every joint uses four or five 608 bearings, 2 disks and 3 gears
+// Bearings and shafts are not shown
+//
 // Outer diameter of the 608 bearing is 22mm
 // Outer diameter of the 1/2" pvc pipe is 21.5mm
 
@@ -153,9 +156,11 @@ if($preview){
     t(-15,-195,0) r(90,0,90) dgear();
     t(15,-195,0) r(90,0,-90) dgear();
 
-%   t(0,-360,0) rx() c(200,21.5);     // pvc pipe
-%   t(0,-98,0) r(90,0,0) c(140,21.5); // pvc pipe
-%   t(60,0,0) r(0,90,0) c(66,21.5);   // pvc pipe
+%   t(0,-360,0) rx() c(200,21.5);      // pvc pipe
+%   t(0,-98,0) r(90,0,0) c(140,21.5);  // pvc pipe
+%   t(60,0,0) r(0,90,0) c(66,21.5);    // pvc pipe
+%   t(15,-195,0) r(0,90,0) c(1.5,95);  // brake disk
+%   t(-15,-195,0) r(0,90,0) c(1.5,95); // brake disk
 } else { // rendering for 3D printing
     flatten() frame();
     t(120,40,0) cap();
