@@ -1,9 +1,10 @@
-// BrakerBot Apr 2025 toandrey(at)yahoo.com
+// BrakerBot2025 toandrey(at)yahoo.com
 // Uses 1/2" pvc pipe, 608 bearings, 95mm disks from Hard Drives, HS300 servos
 // Outer diameter of the 608 bearing is 22mm
 // Outer diameter of the 1/2" pvc pipe is 21.5mm
 
 use <bcstr.scad>
+use <bbbrake.scad>
 include <BOSL2/std.scad>
 include <BOSL2/gears.scad>
 $fn=128; // make cylinders a bit rounder
@@ -58,8 +59,8 @@ module hingeBridge(){
         t(d,0,0)    r(90,0,0)  c(16,3);    // screw hole
         t(-d,0,0)   r(90,0,0)  c(16,3);    // screw hole
         t(0,0,13.3) c(4,3);                // screw hole in bearing block. 13.3 for "print support"
-        t(-10,20,0) c(30,3);               // brake mounting hole in bearing block
-        t(10,20,0)  c(30,3);               // brake mounting hole in bearing block
+//1        t(-10,20,0) c(30,3);               // brake mounting hole in bearing block
+//1        t(10,20,0)  c(30,3);               // brake mounting hole in bearing block
     }
 }
 
@@ -78,7 +79,7 @@ module hingeSide(){
         r(0,90,0) c(10,25.5);       // hinge hole
         t(0,l-4,0) b(12,5.2,10.2);  // bridge hole with tolerance added
         t(0,l,0) r(90,0,0) c(30,3); // screw hole
-        t(1.5,33,0) c(30,3);        // brake mounting hole
+//1        t(1.5,33,0) c(30,3);        // brake mounting hole
     }
 }
 
@@ -89,7 +90,7 @@ module hingeAssembly(){ // for visualization
     t(0,-(l-4),0) hingeBridge();
 }
 
-module leg(){
+module legCap(){
     difference(){
         union(){
             b(26,8,h);
@@ -137,50 +138,6 @@ module dgear(){
 }
 
 
-module servoMountHalf(){
-    difference(){
-        union(){
-            t(0,0,3)         b(20,12,26); // mount with holes
-            t(11.5,20,13.5)  b(3,45,5);   // connecting bars
-            t(-11.5,20,13.5) b(3,45,5);
-        }
-        t(0,0,-10.7) rx() c(20,21.5); // pvc pipe cutout
-        t(0,3,15.1)  b(1.8,10,3);     // servo slot on top
-        t(5,3,0)     c(50,3);         // servo mounting hole
-        t(-5,3,0)    c(50,3);         // servo mounting hole
-        t(0,-8,8)    r(-11.75,0,0) b(30,10,30); // face cut
-        t(0,-9.5,0)  b(22,10,30);     // vertical face cut
-    }
-}
-
-module servoMount(){
-    union(){
-        servoMountHalf();
-        t(0,53.7,0) r(0,0,180) servoMountHalf();
-    }
-}
-
-module pad(){
-    difference(){
-        union(){
-            c(16,30);
-            t(-12, 10,0) c(16,6);
-            t(-12,-10,0) c(16,6);
-        }
-        t(-1,0,0) c(14,25); // scoop
-        t(-12, 10,0) c(20,3); // screw hole
-        t(-12,-10,0) c(20,3); // screw hole
-        t(-12,-11,0) b(10,7,4); // cutout
-        t(6,0,0) b(30,40,20); // big block
-//        t(0,15,0) b(30,30,30); // thickness checker
-        t(-21,0,0) difference(){
-            c(1,20);
-            c(1,18.4);
-        } // pin holes for attaching a brakepad
-    }
-}
-
-
 if($preview){
     t(120,0,0) r(90,90,0) flatten() frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
@@ -190,26 +147,19 @@ if($preview){
     t(0,-195,0) hingeAssembly();
 
     t(60, -195, 0) r(0,-90,0) cap();
-    t(0,-130,0) leg();
+    t(0,-130,0) legCap();
 %   t(0,-330,0) rx() c(200,21.5);   // leg pvc pipe / visual aid
 %   t(0,-74,0)r(90,0,0) c(91,21.5); // pvc pipe / visual aid
     dgear();
     t(0, 90, 0) servoMount();
-    t(21.5,-43, -18) pad();
-    t(8,-43,-18) r(0,180,0) pad();
 } else { // rendering for 3D printing
     flatten() frame();
-    t(-70,-40,0) cap();
+    t(120,40,0) cap();
+    t(120,0,0) r(90,0,0) legCap();
     t(70,40,0) r(180,90,0) hingeSide();
     t(100,-40,0) r(0,90,90) hingeSide(); // need two printed
     t(0,-50,0) hingeBridgeSupported();
     t(80,80,0) dgear();
     t(40,80,0) dgear();
     t(0,80,0)  dgear();
-    t(-60,80,0) r(180,0,0) servoMount();
-    t(-100,80,0) r(180,0,0) servoMount();
-//    t(-60,40,0) r(0,90,0) pad();
-//    t(-90,40,0) r(0,90,0) pad();
-//    t(-120,40,0) r(0,90,0) pad();
-//    t(-90,0,0) r(0,90,0) pad();
 }
