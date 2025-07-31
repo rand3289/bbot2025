@@ -106,6 +106,12 @@ module legCap(){
         t(-8,0,0) r(90,0,0) c(20,3);  // leg attachment screw hole
     }
 }
+module legCapFlat(){
+    intersection(){
+        legCap();
+        t(0,0,1.8) b(30,30,25); // shave off one side to allow mounting a brake
+    }
+}
 
 module cap(){
     difference(){
@@ -150,11 +156,11 @@ if($preview){
     t(0,-195,0) r(0,0,180) hingeAssembly();
 
     t(-60,-195,0) r(0,90,0) cap();
-    t(0,-260,0) r(180,0,0) legCap();
+    t(0,-260,0)   r(180,0,0) legCapFlat();
 
-    t(0,-180,0) r(90,0,0) dgear();
-    t(-15,-195,0) r(90,0,90) dgear();
-    t(15,-195,0) r(90,0,-90) dgear();
+    t(0,-180,0)   r(90,0,0)   dgear();
+    t(-15,-195,0) r(90,0,90)  dgear();
+    t(15,-195,0)  r(90,0,-90) dgear();
 
 %   t(0,-360,0) rx() c(200,21.5);      // pvc pipe
 %   t(0,-98,0) r(90,0,0) c(140,21.5);  // pvc pipe
@@ -164,7 +170,7 @@ if($preview){
 } else { // rendering for 3D printing
     flatten() frame();
     t(120,40,0) cap();
-    t(120,0,0) r(90,0,0) legCap();
+    t(120,0,0) r(90,0,0) legCapFlat();
     t(70,40,0) r(180,90,0) hingeSide();
     t(100,-40,0) r(0,90,90) hingeSide(); // need two printed
     t(0,-50,0) hingeBridgeSupported();
