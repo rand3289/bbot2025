@@ -117,7 +117,7 @@ module cap(){
     difference(){
         c(16, 28);                   // cap body
         t(0,0,1.5) c(16,22);         // bearing hole
-        t(0,0,8.5) c(16,25);       // slides over bearing block
+        t(0,0,8.5) c(16,25);         // slides over bearing block
         t(0,0,4)  r(0,90,0) c(30,3); // screw hole
         t(0,0,4)  r(90,0,0) c(30,3); // screw hole
         t(5,0,0)  c(20,2);           // bottom hole to help take out the bearing
@@ -147,7 +147,25 @@ module dgear(){
 }
 
 
+module axle1(len){
+    sr = 8;
+    sq = sqrt(sr*sr/2);
+    t(0,0,3.5) b(sq,sq,len); // gear mount
+    c(len-7,sr); // 2 bearings
+}
+
+
+module axle2(len){
+    sr = 8;
+    sq = sqrt(sr*sr/2);
+    b(sq,sq,len); // gear mounts
+    c(len-14,sr); // 2 bearings
+}
+
+
 if($preview){
+    t(-100,0,0) axle1(39);
+    t(-80,0,0) pipe(15,8.6,8); // sleve around axles
     t(120,0,0) r(90,90,0) flatten() frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
     flatten() frame();
@@ -168,6 +186,9 @@ if($preview){
 %   t(15,-195,0) r(0,90,0) c(1.5,95);  // brake disk
 %   t(-15,-195,0) r(0,90,0) c(1.5,95); // brake disk
 } else { // rendering for 3D printing
+    t(-80,0,0) pipe(15,8.6,8); // sleve around axles
+    t(-50,50,0) r(90,45,0) axle1(39);
+    t(-70,50,0) r(90,45,0) axle1(39);
     flatten() frame();
     t(120,40,0) cap();
     t(120,0,0) r(90,0,0) legCapFlat();
