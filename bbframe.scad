@@ -115,8 +115,8 @@ module cap(){ // side cap for the lower joint
         c(16, 28);                    // cap body
         t(0,0,1.5) c(16,22.2);        // bearing hole (.2 tolerance)
         t(0,0,8.5) c(16,25);          // slides over bearing block
-        t(0,0,4)   r(0,90,0) c(30,3); // screw hole
-        t(0,0,4)   r(90,0,0) c(30,3); // screw hole
+        t(-10,0,4) r(0,90,0) c(30,3); // 1 screw hole
+        t(0,0,4)   r(90,0,0) c(30,3); // 2 screw holes
         t(5,0,0)   c(20,3);           // bottom hole to help take out the bearing
         t(-5,0,0)  c(20,3);           // bottom hole
     }
@@ -141,20 +141,21 @@ module dgear(){
 
 module axle1(len){
     t(0,0,3.5) b(shaft_square,shaft_square,len); // 1 gear mount
-    c(len-7,shaft_round); // bearings
+    c(len-7,shaft_round);                        // bearings
 }
 
 module axle2(len){
     b(shaft_square,shaft_square,len); // 2 gear mounts
-    c(len-14,shaft_round); // bearings
+    c(len-14,shaft_round);            // bearings
 }
 
 // sleve between two bearings around axle1()
 // this locks bearings in place
 module sleve(){
-    wall = 0.3 * 3; // layers
+    wall = 0.3 * 3;          // layers
     pipe(14.1, 8+2*wall, 8); // len, od, id
 }
+
 
 if($preview){
     t(-100,0,0) axle1(39);
