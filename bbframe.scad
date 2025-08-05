@@ -19,11 +19,10 @@ shaft_round = 8; // 608 bearings fit an 8mm round shaft
 shaft_square = sqrt(shaft_round*shaft_round/2);
 echo("Shaft end square size", shaft_square);
 
-module flatten(){ // remove everything below h/2
+module flatten(top=8){ // remove everything below top
     intersection(){
         children();
-        t(0,0,h/2) b(200,200,2*h);
-//        b(200,200,h); // flatten both sides
+        t(0,0,100-top) b(200,200,200); // introduces a visual glitch
     }
 }
 
@@ -39,8 +38,8 @@ module frame(){
     difference(){
         union(){
             cframe(66);
-            t(29,0,0) r(0,90,0) c(24,25); // bearing block
-            t(-d,0,0) r(0,90,0) c(32,25); // bearing block
+            flatten() t(29,0,0) r(0,90,0) c(24,25); // bearing block
+            flatten() t(-d,0,0) r(0,90,0) c(32,25); // bearing block
         }
         t(d,0,0)  r(0,90,0) c(29,22);  // pipe and bearing hole
         t(-d,0,0) r(0,90,0) c(29,22);  // bearing hole
@@ -79,7 +78,7 @@ module hingeSide(){
     hinge_hole=26;
     difference(){
         union(){
-            r(0,90,0)  c(8,3+hinge_hole); // pipe
+            r(0,90,0)  c(8,hinge_hole+3); // pipe
             t(0,l/2,0) b(8,l+4,h);        // side
         }
         r(0,90,0)  c(10,hinge_hole);  // hinge hole
@@ -96,7 +95,8 @@ module hingeAssembly(){ // for visualization
     color("green")  t(0,-(l-4),0)          hingeBridge();
 }
 
-module legCap(){
+module legCap(){ // attaches pipe to lower joint
+    flatten(21.5/2) // shave top off this cap level with pipe
     difference(){
         union(){
             b(26,8,h);
@@ -109,22 +109,16 @@ module legCap(){
         t(-8,0,0) r(90,0,0) c(20,3);  // leg attachment screw hole
     }
 }
-module legCapFlat(){
-    intersection(){
-        legCap();
-        t(0,0,1.8) b(30,30,25); // shave off one side to allow mounting a brake
-    }
-}
 
-module cap(){
+module cap(){ // side cap for the lower joint
     difference(){
         c(16, 28);                    // cap body
-        t(0,0,1.5) c(16,22.5);        // bearing hole
+        t(0,0,1.5) c(16,22.2);        // bearing hole (.2 tolerance)
         t(0,0,8.5) c(16,25);          // slides over bearing block
         t(0,0,4)   r(0,90,0) c(30,3); // screw hole
         t(0,0,4)   r(90,0,0) c(30,3); // screw hole
-        t(5,0,0)   c(20,2);           // bottom hole to help take out the bearing
-        t(-5,0,0)  c(20,2);           // bottom hole
+        t(5,0,0)   c(20,3);           // bottom hole to help take out the bearing
+        t(-5,0,0)  c(20,3);           // bottom hole
     }
 }
 
@@ -145,12 +139,10 @@ module dgear(){
     }
 }
 
-
 module axle1(len){
     t(0,0,3.5) b(shaft_square,shaft_square,len); // 1 gear mount
     c(len-7,shaft_round); // bearings
 }
-
 
 module axle2(len){
     b(shaft_square,shaft_square,len); // 2 gear mounts
@@ -160,18 +152,18 @@ module axle2(len){
 
 if($preview){
     t(-100,0,0) axle1(39);
-    t(-120,0,0) axle2(100);
+    t(-120,0,0) axle2(100);     // arbitrary length shown
     t(-80,0,0)  pipe(15,8.6,8); // sleve around axles
 
-    t(120,0,0) r(90,90,0) flatten() frame();
+    t(120,0,0) r(90,90,0) frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
-    flatten() frame();
+    frame();
     hingeAssembly();
-    t(0,-195,0) r(0,0,180) flatten() frame();
+    t(0,-195,0) r(0,0,180) frame();
     t(0,-195,0) r(0,0,180) hingeAssembly();
 
     t(-60,-195,0) r(0,90,0)  cap();
-    t(0,-260,0)   r(180,0,0) legCapFlat();
+    t(0,-260,0)   r(180,0,0) legCap();
 
     t(0,-180,0)   r(90,360/28,0) dgear(); // 14 teeth. rotate 1/2 tooth
     t(-15,-195,0) r(90,0,90)     dgear();
@@ -193,7 +185,7 @@ if($preview){
     t(70,40,0)   r(180,90,0) hingeSide();
     t(100,-40,0) r(0,90,90)  hingeSide(); // need two printed
     t(0,-50,0)   hingeBridgeSupported();
-    flatten()    frame();
+    frame();
     t(80,80,0)   dgear();
     t(40,80,0)   dgear();
     t(0,80,0)    dgear();
