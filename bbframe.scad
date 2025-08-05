@@ -1,8 +1,8 @@
 // BrakerBot2025 toandrey(at)yahoo.com
 // Brakes actuated by servo motors (not shown) transfer torque from disks to limbs
+// Print everything with 0.3mm layers without support
 // Uses 1/2" pvc pipe, 608 bearings, 95mm disks from Hard Drives, HS300 servos
-// Every joint uses four or five 608 bearings, 2 disks and 3 gears
-// Bearings and shafts are not shown
+// Every joint uses four or five bearings (not shown), 2 disks and 3 gears
 //
 // Outer diameter of the 608 bearing is 22mm
 // Outer diameter of the 1/2" pvc pipe is 21.5mm
@@ -149,11 +149,17 @@ module axle2(len){
     c(len-14,shaft_round); // bearings
 }
 
+// sleve between two bearings around axle1()
+// this locks bearings in place
+module sleve(){
+    wall = 0.3 * 3; // layers
+    pipe(14.1, 8+2*wall, 8); // len, od, id
+}
 
 if($preview){
     t(-100,0,0) axle1(39);
     t(-120,0,0) axle2(100);     // arbitrary length shown
-    t(-80,0,0)  pipe(15,8.6,8); // sleve around axles
+    t(-80,0,0)  sleve();
 
     t(120,0,0) r(90,90,0) frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
@@ -177,11 +183,11 @@ if($preview){
 } else { // rendering for 3D printing
     t(-50,50,0)  r(90,45,0) axle1(39); // fixed length for each joint
     t(-70,50,0)  r(90,45,0) axle1(39); // need 2 per joint
-    t(-70,-20,0) pipe(15,8.6,8);       // sleve around axles
-    t(-70,0,0)   pipe(15,8.6,8);       // need 2 per joint
+    t(-70,-20,0) sleve();              // need 2 per joint
+    t(-70,0,0)   sleve();
     // axle2(len) // len depends on PVC pipe length
     t(120,40,0)  cap();
-    t(120,0,0)   r(90,0,0)   legCapFlat();
+    t(120,0,0)   r(90,0,0)   legCap();
     t(70,40,0)   r(180,90,0) hingeSide();
     t(100,-40,0) r(0,90,90)  hingeSide(); // need two printed
     t(0,-50,0)   hingeBridgeSupported();
