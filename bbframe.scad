@@ -92,8 +92,8 @@ module hingeSide(){
 module hingeAssembly(){ // for visualization
     d = w/2+4;
     color("yellow") t(d,0,0)  r(180,180,0) hingeSide();
-    color("pink")   t(-d,0,0) r(180,0,0)   hingeSide();
-    t(0,-(l-4),0)   hingeBridge();
+    color("yellow") t(-d,0,0) r(180,0,0)   hingeSide();
+    color("green")  t(0,-(l-4),0)          hingeBridge();
 }
 
 module legCap(){
@@ -183,16 +183,17 @@ if($preview){
 %   t(15,-195,0)  r(0,90,0) c(1.5,95);   // brake disk
 %   t(-15,-195,0) r(0,90,0) c(1.5,95);   // brake disk
 } else { // rendering for 3D printing
-    t(-80,0,0)  pipe(15,8.6,8); // sleve around axles
-    t(-50,50,0) r(90,45,0) axle1(39); // need 2 per joint
-    t(-70,50,0) r(90,45,0) axle1(39); // fixed length for each joint
-    // axle2(len) // len will depend on your PVC pipe length
+    t(-50,50,0)  r(90,45,0) axle1(39); // fixed length for each joint
+    t(-70,50,0)  r(90,45,0) axle1(39); // need 2 per joint
+    t(-70,-20,0) pipe(15,8.6,8);       // sleve around axles
+    t(-70,0,0)   pipe(15,8.6,8);       // need 2 per joint
+    // axle2(len) // len depends on PVC pipe length
     t(120,40,0)  cap();
     t(120,0,0)   r(90,0,0)   legCapFlat();
-    flatten()    frame();
     t(70,40,0)   r(180,90,0) hingeSide();
     t(100,-40,0) r(0,90,90)  hingeSide(); // need two printed
     t(0,-50,0)   hingeBridgeSupported();
+    flatten()    frame();
     t(80,80,0)   dgear();
     t(40,80,0)   dgear();
     t(0,80,0)    dgear();
