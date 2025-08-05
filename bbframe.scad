@@ -62,8 +62,6 @@ module hingeBridge(){
         t(d,0,0)    r(90,0,0)  c(16,3);    // screw hole
         t(-d,0,0)   r(90,0,0)  c(16,3);    // screw hole
         t(0,0,13.3) c(4,3);                // screw hole in bearing block. 13.3 for "print support"
-//1        t(-10,20,0) c(30,3);               // brake mounting hole in bearing block
-//1        t(10,20,0)  c(30,3);               // brake mounting hole in bearing block
     }
 }
 
@@ -82,7 +80,7 @@ module hingeSide(){
         r(0,90,0) c(10,25.5);       // hinge hole
         t(0,l-4,0) b(12,5.2,10.2);  // bridge hole with tolerance added
         t(0,l,0) r(90,0,0) c(30,3); // screw hole
-//1        t(1.5,33,0) c(30,3);        // brake mounting hole
+//        t(1.5,33,0) c(30,3);        // brake mounting hole
     }
 }
 
@@ -116,7 +114,7 @@ module legCapFlat(){
 module cap(){
     difference(){
         c(16, 28);                   // cap body
-        t(0,0,1.5) c(16,22);         // bearing hole
+        t(0,0,1.5) c(16,22.5);       // bearing hole
         t(0,0,8.5) c(16,25);         // slides over bearing block
         t(0,0,4)  r(0,90,0) c(30,3); // screw hole
         t(0,0,4)  r(90,0,0) c(30,3); // screw hole
@@ -127,6 +125,29 @@ module cap(){
 
 // differential gear with a square shaft hole
 module dgear(){
+    disk_id = 25.2; // .2 for tolerance
+    gteeth  = 14;
+
+    shaft_round = 8; // 608 bearings fit an 8mm round shaft
+    // if you grind an end of a round shaft into a square, it will be this size
+    shaft_square = sqrt(shaft_round*shaft_round/2);
+    shaft_hole = shaft_square + 0.3;
+    echo("Shaft end square size", shaft_square);
+
+    difference(){
+        union(){
+            t(0,0,4.5)  bevel_gear(teeth=gteeth, mate_teeth=gteeth, mod=1.5, cutter_radius=0, spiral=0, shaft_diam=1); // 1.3258
+            t(0,0,2.25) c(2, 18);        // base disk to gear connector
+            t(0,0,0.4)  c(1.8, disk_id); // base for mounting a brake disk
+            t(0,0,-0.9) c(0.9,27);       // brake disk endstop
+        }
+        b(shaft_hole,shaft_hole,20);
+    }
+}
+
+
+// differential gear with a square shaft hole
+module dgear2(){ // unused
     disk_od = 95;
     disk_id = 25;
     disk_h  = 1.25;
@@ -148,7 +169,7 @@ module dgear(){
 
 
 module axle1(len){
-    sr = 8;
+    sr = 8; // bearing ID
     sq = sqrt(sr*sr/2);
     t(0,0,3.5) b(sq,sq,len); // 1 gear mount
     c(len-7,sr); // bearings
@@ -156,7 +177,7 @@ module axle1(len){
 
 
 module axle2(len){
-    sr = 8;
+    sr = 8; // bearing ID
     sq = sqrt(sr*sr/2);
     b(sq,sq,len); // 2 gear mounts
     c(len-14,sr); // bearings
@@ -165,7 +186,9 @@ module axle2(len){
 
 if($preview){
     t(-100,0,0) axle1(39);
-    t(-80,0,0) pipe(15,8.6,8); // sleve around axles
+    t(-120,0,0) axle2(100);
+    t(-80,0,0)  pipe(15,8.6,8); // sleve around axles
+
     t(120,0,0) r(90,90,0) flatten() frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
     flatten() frame();
@@ -173,29 +196,30 @@ if($preview){
     t(0,-195,0) r(0,0,180) flatten() frame();
     t(0,-195,0) r(0,0,180) hingeAssembly();
 
-    t(-60,-195,0) r(0,90,0) cap();
+    t(-60,-195,0) r(0,90,0)  cap();
     t(0,-260,0)   r(180,0,0) legCapFlat();
 
-    t(0,-180,0)   r(90,0,0)   dgear();
-    t(-15,-195,0) r(90,0,90)  dgear();
-    t(15,-195,0)  r(90,0,-90) dgear();
+    t(0,-180,0)   r(90,360/28,0) dgear(); // 14 teeth. rotate 1/2 tooth
+    t(-15,-195,0) r(90,0,90)     dgear();
+    t(15,-195,0)  r(90,0,-90)    dgear();
 
-%   t(0,-360,0) rx() c(200,21.5);      // pvc pipe
-%   t(0,-98,0) r(90,0,0) c(140,21.5);  // pvc pipe
-%   t(60,0,0) r(0,90,0) c(66,21.5);    // pvc pipe
-%   t(15,-195,0) r(0,90,0) c(1.5,95);  // brake disk
-%   t(-15,-195,0) r(0,90,0) c(1.5,95); // brake disk
+%   t(0,-360,0)   r(90,0,0) c(200,21.5); // pvc pipe
+%   t(0,-98,0)    r(90,0,0) c(140,21.5); // pvc pipe
+%   t(60,0,0)     r(0,90,0) c(66,21.5);  // pvc pipe
+%   t(15,-195,0)  r(0,90,0) c(1.5,95);   // brake disk
+%   t(-15,-195,0) r(0,90,0) c(1.5,95);   // brake disk
 } else { // rendering for 3D printing
-    t(-80,0,0) pipe(15,8.6,8); // sleve around axles
-    t(-50,50,0) r(90,45,0) axle1(39);
-    t(-70,50,0) r(90,45,0) axle1(39);
-    flatten() frame();
-    t(120,40,0) cap();
-    t(120,0,0) r(90,0,0) legCapFlat();
-    t(70,40,0) r(180,90,0) hingeSide();
-    t(100,-40,0) r(0,90,90) hingeSide(); // need two printed
-    t(0,-50,0) hingeBridgeSupported();
-    t(80,80,0) dgear();
-    t(40,80,0) dgear();
-    t(0,80,0)  dgear();
+    t(-80,0,0)  pipe(15,8.6,8); // sleve around axles
+    t(-50,50,0) r(90,45,0) axle1(39); // need 2 per joint
+    t(-70,50,0) r(90,45,0) axle1(39); // fixed length for each joint
+    // axle2(len) // len will depend on your PVC pipe length
+    t(120,40,0)  cap();
+    t(120,0,0)   r(90,0,0)   legCapFlat();
+    flatten()    frame();
+    t(70,40,0)   r(180,90,0) hingeSide();
+    t(100,-40,0) r(0,90,90)  hingeSide(); // need two printed
+    t(0,-50,0)   hingeBridgeSupported();
+    t(80,80,0)   dgear();
+    t(40,80,0)   dgear();
+    t(0,80,0)    dgear();
 }
