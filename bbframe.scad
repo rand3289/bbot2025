@@ -14,6 +14,10 @@ $fn=128; // make cylinders a bit rounder
 w = 34; // outer frame width
 l = 57; // outer frame length
 h = 16; // frame height
+shaft_round = 8; // 608 bearings fit an 8mm round shaft
+// if you grind an end of a round shaft into a square, it will be this size
+shaft_square = sqrt(shaft_round*shaft_round/2);
+echo("Shaft end square size", shaft_square);
 
 module flatten(){ // remove everything below h/2
     intersection(){
@@ -35,8 +39,8 @@ module frame(){
     difference(){
         union(){
             cframe(66);
-            t(29,0,0)  r(0,90,0) c(24,25); // bearing block
-            t(-d,0,0) r(0,90,0) c(32,25);  // bearing block
+            t(29,0,0) r(0,90,0) c(24,25); // bearing block
+            t(-d,0,0) r(0,90,0) c(32,25); // bearing block
         }
         t(d,0,0)  r(0,90,0) c(29,22);  // pipe and bearing hole
         t(-d,0,0) r(0,90,0) c(29,22);  // bearing hole
@@ -54,7 +58,7 @@ module hingeBridge(){
         union(){
             b(w,8,16);    // beam
             b(w+16,5,10); // attachment points on both sides
-            flatten() t(0,15,0) r(90,0,0) c(38,25); // bearing block
+            flatten()  t(0,15,0) r(90,0,0) c(38,25); // bearing block
             t(0,15,-4) b(25,38,8); // makes bearing block square
         }
         t(0,11.5,0) r(90,0,0)  c(42,22);   // pipe and bearing hole
@@ -72,14 +76,15 @@ module hingeBridgeSupported(){ // supported for 3D printing
 }
 
 module hingeSide(){
+    hinge_hole=26;
     difference(){
         union(){
-            r(0,90,0) c(8,28.5);   // pipe
-            t(0,l/2,0) b(8,l+4,h); // side
+            r(0,90,0)  c(8,3+hinge_hole); // pipe
+            t(0,l/2,0) b(8,l+4,h);        // side
         }
-        r(0,90,0) c(10,25.5);       // hinge hole
-        t(0,l-4,0) b(12,5.2,10.2);  // bridge hole with tolerance added
-        t(0,l,0) r(90,0,0) c(30,3); // screw hole
+        r(0,90,0)  c(10,hinge_hole);  // hinge hole
+        t(0,l-4,0) b(12,5.2,10.2);    // bridge hole with tolerance added
+        t(0,l,0)   r(90,0,0) c(30,3); // screw hole
 //        t(1.5,33,0) c(30,3);        // brake mounting hole
     }
 }
@@ -87,8 +92,8 @@ module hingeSide(){
 module hingeAssembly(){ // for visualization
     d = w/2+4;
     color("yellow") t(d,0,0)  r(180,180,0) hingeSide();
-    color("pink") t(-d,0,0) r(180,0,0) hingeSide();
-    t(0,-(l-4),0) hingeBridge();
+    color("pink")   t(-d,0,0) r(180,0,0)   hingeSide();
+    t(0,-(l-4),0)   hingeBridge();
 }
 
 module legCap(){
@@ -113,13 +118,13 @@ module legCapFlat(){
 
 module cap(){
     difference(){
-        c(16, 28);                   // cap body
-        t(0,0,1.5) c(16,22.5);       // bearing hole
-        t(0,0,8.5) c(16,25);         // slides over bearing block
-        t(0,0,4)  r(0,90,0) c(30,3); // screw hole
-        t(0,0,4)  r(90,0,0) c(30,3); // screw hole
-        t(5,0,0)  c(20,2);           // bottom hole to help take out the bearing
-        t(-5,0,0) c(20,2);           // bottom hole
+        c(16, 28);                    // cap body
+        t(0,0,1.5) c(16,22.5);        // bearing hole
+        t(0,0,8.5) c(16,25);          // slides over bearing block
+        t(0,0,4)   r(0,90,0) c(30,3); // screw hole
+        t(0,0,4)   r(90,0,0) c(30,3); // screw hole
+        t(5,0,0)   c(20,2);           // bottom hole to help take out the bearing
+        t(-5,0,0)  c(20,2);           // bottom hole
     }
 }
 
@@ -127,16 +132,11 @@ module cap(){
 module dgear(){
     disk_id = 25.2; // .2 for tolerance
     gteeth  = 14;
-
-    shaft_round = 8; // 608 bearings fit an 8mm round shaft
-    // if you grind an end of a round shaft into a square, it will be this size
-    shaft_square = sqrt(shaft_round*shaft_round/2);
-    shaft_hole = shaft_square + 0.3;
-    echo("Shaft end square size", shaft_square);
+    shaft_hole = shaft_square + 0.3; // + tolerance
 
     difference(){
         union(){
-            t(0,0,4.5)  bevel_gear(teeth=gteeth, mate_teeth=gteeth, mod=1.5, cutter_radius=0, spiral=0, shaft_diam=1); // 1.3258
+            t(0,0,4.5)  bevel_gear(teeth=gteeth, mate_teeth=gteeth, mod=1.5, cutter_radius=0, spiral=0, shaft_diam=1);
             t(0,0,2.25) c(2, 18);        // base disk to gear connector
             t(0,0,0.4)  c(1.8, disk_id); // base for mounting a brake disk
             t(0,0,-0.9) c(0.9,27);       // brake disk endstop
@@ -146,41 +146,15 @@ module dgear(){
 }
 
 
-// differential gear with a square shaft hole
-module dgear2(){ // unused
-    disk_od = 95;
-    disk_id = 25;
-    disk_h  = 1.25;
-    gteeth  = 19;
-    shaft_round = 8; // 608 bearings fit an 8mm round shaft
-    // if you grind an end of a round shaft into a square, it will be this size
-    shaft_square = sqrt(shaft_round*shaft_round/2);
-    shaft_hole = shaft_square + 0.3;
-    echo("Shaft end square size", shaft_square);
-
-    difference(){
-        union(){
-            t(0,0,1.3258) bevel_gear(teeth=gteeth, mate_teeth=gteeth, mod=1.5, cutter_radius=0, spiral=0, shaft_diam=1);
-            color("red") t(0,0,-disk_h/2) c(disk_h, disk_id); // base for mounting a brake disk
-        } // I don't know why the gear is 1.4 below z=0
-        b(shaft_hole,shaft_hole,20);
-    }
-}
-
-
 module axle1(len){
-    sr = 8; // bearing ID
-    sq = sqrt(sr*sr/2);
-    t(0,0,3.5) b(sq,sq,len); // 1 gear mount
-    c(len-7,sr); // bearings
+    t(0,0,3.5) b(shaft_square,shaft_square,len); // 1 gear mount
+    c(len-7,shaft_round); // bearings
 }
 
 
 module axle2(len){
-    sr = 8; // bearing ID
-    sq = sqrt(sr*sr/2);
-    b(sq,sq,len); // 2 gear mounts
-    c(len-14,sr); // bearings
+    b(shaft_square,shaft_square,len); // 2 gear mounts
+    c(len-14,shaft_round); // bearings
 }
 
 
