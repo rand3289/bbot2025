@@ -150,16 +150,16 @@ module dgear(){
 module axle1(len){
     sr = 8;
     sq = sqrt(sr*sr/2);
-    t(0,0,3.5) b(sq,sq,len); // gear mount
-    c(len-7,sr); // 2 bearings
+    t(0,0,3.5) b(sq,sq,len); // 1 gear mount
+    c(len-7,sr); // bearings
 }
 
 
 module axle2(len){
     sr = 8;
     sq = sqrt(sr*sr/2);
-    b(sq,sq,len); // gear mounts
-    c(len-14,sr); // 2 bearings
+    b(sq,sq,len); // 2 gear mounts
+    c(len-14,sr); // bearings
 }
 
 
