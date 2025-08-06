@@ -4,9 +4,10 @@
 // Uses 1/2" pvc pipe, 608 bearings, 95mm disks from Hard Drives, HS300 servos
 // Every joint uses four or five bearings (not shown), 2 disks and 3 gears
 //
-// Outer diameter of the 608 bearing is 22mm
+// Outer diameter of the 608 bearing is 22mm.  ID 8mm
 // Outer diameter of the 1/2" pvc pipe is 21.5mm
-// TODO: redesign second side of the frame to match the other side (make it longer)
+// TODO: redesign second side of the frame to match the other side
+// make it longer.  make it symmetrical
 
 use <bcstr.scad> // b(),c(),s(),t(),r()
 include <BOSL2/std.scad>
@@ -27,10 +28,10 @@ module flatten(top=8){ // remove everything below top
     }
 }
 
-module cframe(width){
+module cframe(){
     difference(){
-        t(0,l/2,0) b(width,l,h);
-        b(width-16,(l-8)*2,h+1);
+        t(0,l/2,0) b(66,l,h);
+        b(50,(l-8)*2,h+1);
     }
 }
 
@@ -38,7 +39,7 @@ module frame(){
     d = 33;
     difference(){
         union(){
-            cframe(66);
+            cframe();
             flatten() t(29,0,0) r(0,90,0) c(24,25); // bearing block
             flatten() t(-d,0,0) r(0,90,0) c(32,25); // bearing block
         }
@@ -53,7 +54,6 @@ module frame(){
 }
 
 module hingeBridge(){
-    d = w/2+4;
     difference(){
         union(){
             b(w+20,8,16); // beam
@@ -70,14 +70,13 @@ module hingeBridge(){
 }
 
 module hingeSide(){
-    hinge_hole=26;
     difference(){
         union(){
-            r(0,90,0) c(8,hinge_hole+3); // pipe
-            t(0,30,0) b(8,38,h);         // side
-            t(0,52,0) b(8,10,10);        // bridge connector
+            r(0,90,0) c(8,29);    // pipe
+            t(0,30,0) b(8,38,h);  // side
+            t(0,52,0) b(8,10,10); // bridge connector
         }
-        r(0,90,0) c(10,hinge_hole);  // hinge hole
+        r(0,90,0) c(10,26);          // hinge hole
         t(0,53,0) r(0,90,0) c(10,3); // screw hole
     }
 }
@@ -142,18 +141,17 @@ module axle2(len){
     c(len-14,shaft_round);            // bearings
 }
 
-// sleve between two bearings around axle1()
-// this locks bearings in place
+// spacer between two bearings around axle1() to lock bearings in place
 module sleve(){
-    wall = 0.3 * 3;          // layers
+    wall = 0.3 * 3;          // 3 layers
     pipe(14.1, 8+2*wall, 8); // len, od, id
 }
 
 
 if($preview){
-    t(-100,0,0) axle1(39);
-    t(-120,0,0) axle2(100);     // arbitrary length shown
-    t(-80,0,0)  sleve();
+    t(-100,0,0) axle1(39);  // 2 per joint. actual length
+    t(-120,0,0) axle2(100); // arbitrary length shown
+    t(-80,0,0)  sleve();    // spacer between bearings
 
     t(120,0,0) r(90,90,0) frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
@@ -162,7 +160,7 @@ if($preview){
     t(0,-195,0) r(0,0,180) frame();
     t(0,-195,0) r(0,0,180) hingeAssembly();
 
-    t(-60,-195,0) r(0,90,0)  cap();
+    t(-60,-195,0) r(0,90,0)    cap();
     t(0,-260,0)   r(180,180,0) legCap();
 
     t(0,-180,0)   r(90,360/28,0) dgear(); // 14 teeth. rotate 1/2 tooth
