@@ -6,6 +6,7 @@
 //
 // Outer diameter of the 608 bearing is 22mm
 // Outer diameter of the 1/2" pvc pipe is 21.5mm
+// TODO: redesign second side of the frame to match the other side (make it longer)
 
 use <bcstr.scad> // b(),c(),s(),t(),r()
 include <BOSL2/std.scad>
@@ -55,44 +56,36 @@ module hingeBridge(){
     d = w/2+4;
     difference(){
         union(){
-            b(w,8,16);    // beam
-            b(w+16,5,10); // attachment points on both sides
+            b(w+20,8,16); // beam
             flatten()  t(0,15,0) r(90,0,0) c(38,25); // bearing block
-            t(0,15,-4) b(25,38,8); // makes bearing block square
+            t(0,15,-4) b(25,38,8); // make bearing block bottom square
         }
-        t(0,11.5,0) r(90,0,0)  c(42,22);   // pipe and bearing hole
-        r(90,0,0)   c(100,11);             // shaft hole
-        t(d,0,0)    r(90,0,0)  c(16,3);    // screw hole
-        t(-d,0,0)   r(90,0,0)  c(16,3);    // screw hole
-        t(0,0,13.3) c(4,3);                // screw hole in bearing block. 13.3 for "print support"
+        t(0,11.5,0) r(90,0,0)  c(42,22); // pipe and bearing hole
+        r(90,0,0)   c(100,11);           // shaft hole
+        t(21,0,0)   b(8.2,12,10.2);      // hole for hinges
+        t(-21,0,0)  b(8,12,10);          // hole for hinges
+        r(0,90,0)   c(60,3);             // 2 screw holes
+        t(0,0,13.3) c(4,3);              // screw hole in bearing block. 13.3 for "print support"
     }
-}
-
-module hingeBridgeSupported(){ // supported for 3D printing
-    hingeBridge();
-    t(24,0,-6.5)  sq_pipe(2,5,3,0.3); //  print support
-    t(-24,0,-6.5) sq_pipe(2,5,3,0.3); //  print support
 }
 
 module hingeSide(){
     hinge_hole=26;
     difference(){
         union(){
-            r(0,90,0)  c(8,hinge_hole+3); // pipe
-            t(0,l/2,0) b(8,l+4,h);        // side
+            r(0,90,0) c(8,hinge_hole+3); // pipe
+            t(0,30,0) b(8,38,h);         // side
+            t(0,52,0) b(8,10,10);        // bridge connector
         }
-        r(0,90,0)  c(10,hinge_hole);  // hinge hole
-        t(0,l-4,0) b(12,5.2,10.2);    // bridge hole with tolerance added
-        t(0,l,0)   r(90,0,0) c(30,3); // screw hole
-//        t(1.5,33,0) c(30,3);        // brake mounting hole
+        r(0,90,0) c(10,hinge_hole);  // hinge hole
+        t(0,53,0) r(0,90,0) c(10,3); // screw hole
     }
 }
 
 module hingeAssembly(){ // for visualization
-    d = w/2+4;
-    color("yellow") t(d,0,0)  r(180,180,0) hingeSide();
-    color("yellow") t(-d,0,0) r(180,0,0)   hingeSide();
-    color("green")  t(0,-(l-4),0)          hingeBridge();
+    color("yellow") t(21,0,0)  r(180,180,0) hingeSide();
+    color("yellow") t(-21,0,0) r(180,0,0)   hingeSide();
+    color("green")  t(0,-(l-4),0)           hingeBridge();
 }
 
 module legCap(){ // attaches pipe to lower joint
@@ -170,7 +163,7 @@ if($preview){
     t(0,-195,0) r(0,0,180) hingeAssembly();
 
     t(-60,-195,0) r(0,90,0)  cap();
-    t(0,-260,0)   r(180,0,0) legCap();
+    t(0,-260,0)   r(180,180,0) legCap();
 
     t(0,-180,0)   r(90,360/28,0) dgear(); // 14 teeth. rotate 1/2 tooth
     t(-15,-195,0) r(90,0,90)     dgear();
@@ -191,7 +184,7 @@ if($preview){
     t(120,0,0)   r(90,0,0)   legCap();
     t(70,40,0)   r(180,90,0) hingeSide();
     t(100,-40,0) r(0,90,90)  hingeSide(); // need two printed
-    t(0,-50,0)   hingeBridgeSupported();
+    t(0,-50,0)   hingeBridge();
     frame();
     t(80,80,0)   dgear();
     t(40,80,0)   dgear();
