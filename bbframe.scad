@@ -72,7 +72,7 @@ module hingeBridge(){
 module hingeSide(){
     difference(){
         union(){
-            r(0,90,0) c(8,29);    // pipe
+            r(0,90,0) c(8,28.8);  // pipe
             t(0,30,0) b(8,38,h);  // side
             t(0,52,0) b(8,10,10); // bridge connector
         }
@@ -143,8 +143,7 @@ module axle2(len){
 
 // spacer between two bearings around axle1() to lock bearings in place
 module sleve(){
-    wall = 0.3 * 3;          // 3 layers
-    pipe(14.1, 8+2*wall, 8); // len, od, id
+    pipe(14.1, 8.2+1.8, 8.2); // len, od, id // 0.9mm wall
 }
 
 
