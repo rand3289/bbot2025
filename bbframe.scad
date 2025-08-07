@@ -148,9 +148,9 @@ module sleve(){
 
 
 if($preview){
-    t(-100,0,0) axle1(39);  // 2 per joint. actual length
-    t(-120,0,0) axle2(100); // arbitrary length shown
-    t(-80,0,0)  sleve();    // spacer between bearings
+    color("red")  t(0,-97,0)    r(90,0,0) axle2(174);
+    color("red")  t(-50,-195,0) r(0,90,0) axle1(39); // 2 per joint. actual length
+    color("teal") t(-50,-195,0) r(0,90,0) sleve();   // spacer between bearings
 
     t(120,0,0) r(90,90,0) frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
@@ -159,7 +159,7 @@ if($preview){
     t(0,-195,0) r(0,0,180) frame();
     t(0,-195,0) r(0,0,180) hingeAssembly();
 
-    t(-60,-195,0) r(0,90,0)    cap();
+    t(-75,-195,0) r(0,90,0)    cap();
     t(0,-260,0)   r(180,180,0) legCap();
 
     t(0,-180,0)   r(90,360/28,0) dgear(); // 14 teeth. rotate 1/2 tooth
