@@ -28,18 +28,14 @@ module flatten(top=8){ // remove everything below top
     }
 }
 
-module cframe(){
-    difference(){
-        t(0,l/2,0) b(66,l,h);
-        b(50,(l-8)*2,h+1);
-    }
-}
-
 module frame(){
     d = 33;
     difference(){
         union(){
-            cframe();
+            difference(){
+                t(0,l/2,0) b(66,l,h);
+                b(50,(l-8)*2,h+1);
+            }
             flatten() t(29,0,0) r(0,90,0) c(24,25); // bearing block
             flatten() t(-d,0,0) r(0,90,0) c(32,25); // bearing block
         }
@@ -81,7 +77,7 @@ module hingeSide(){
     }
 }
 
-module hingeAssembly(){ // for visualization
+module hingeAssembly(){ // for visualization only
     color("yellow") t(21,0,0)  r(180,180,0) hingeSide();
     color("yellow") t(-21,0,0) r(180,0,0)   hingeSide();
     color("green")  t(0,-(l-4),0)           hingeBridge();
@@ -131,6 +127,34 @@ module dgear(){
     }
 }
 
+module dgear2(){
+    shaft_hole = shaft_square + 0.3; // + tolerance
+    gteeth  = 12;
+    difference(){
+        union(){
+            bevel_gear(teeth=gteeth, mate_teeth=gteeth, mod=2, cutter_radius=0, spiral=0, shaft_diam=1);
+            t(0,0,-2.2) c(0.9,28); // disk stop
+        }
+        b(shaft_hole,shaft_hole,20);
+    }
+}
+
+module diskMount(){
+    shaft_hole = shaft_square + 0.3; // + tolerance
+    difference(){
+        union(){
+            t(0,0,0.75)  c(1.5, 25); // base for mounting a brake disk
+            t(0,0,-0.45) c(0.9,28);  // disk stop
+        }
+        b(shaft_hole,shaft_hole,20);
+    }
+}
+
+module gearAssembly(){ // for visualization only
+    dgear2();
+    t(0,0,-4.1) diskMount();
+}
+
 module axle1(len){
     t(0,0,3.5) b(shaft_square,shaft_square,len); // 1 gear mount
     c(len-7,shaft_round);                        // bearings
@@ -162,9 +186,9 @@ if($preview){
     t(-75,-195,0) r(0,90,0)    cap();
     t(0,-260,0)   r(180,180,0) legCap();
 
-    t(0,-180,0)   r(90,360/28,0) dgear(); // 14 teeth. rotate 1/2 tooth
-    t(-15,-195,0) r(90,0,90)     dgear();
-    t(15,-195,0)  r(90,0,-90)    dgear();
+    t(11.5,-196,0)  r(0,-90,0)     gearAssembly();
+    t(0,-184,0)     r(90,360/26,0) gearAssembly(); // N teeth. rotate 1/2 tooth
+    t(-11.5,-196,0) r(0,90,0)      gearAssembly();
 
 %   t(0,-360,0)   r(90,0,0) c(200,21.5); // pvc pipe
 %   t(0,-98,0)    r(90,0,0) c(140,21.5); // pvc pipe
@@ -183,7 +207,7 @@ if($preview){
     t(100,-40,0) r(0,90,90)  hingeSide(); // need two printed
     t(0,-50,0)   hingeBridge();
     frame();
-    t(80,80,0)   dgear();
-    t(40,80,0)   dgear();
-    t(0,80,0)    dgear();
+//    t(80,80,0)   dgear();
+//    t(40,80,0)   dgear();
+//    t(0,80,0)    dgear();
 }
