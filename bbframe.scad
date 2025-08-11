@@ -13,9 +13,6 @@ use <bcstr.scad> // b(),c(),s(),t(),r()
 include <BOSL2/std.scad>
 include <BOSL2/gears.scad>
 $fn=128; // make cylinders a bit rounder
-w = 34; // outer frame width
-l = 57; // outer frame length
-h = 16; // frame height
 shaft_round = 8; // 608 bearings fit an 8mm round shaft
 // if you grind an end of a round shaft into a square, it will be this size
 shaft_square = sqrt(shaft_round*shaft_round/2);
@@ -33,8 +30,8 @@ module frame(){
     difference(){
         union(){
             difference(){
-                t(0,l/2,0) b(66,l,h);
-                b(50,(l-8)*2,h+1);
+                t(0,28.5,0) b(66,57,16); // c-frame
+                b(50,98,17);
             }
             flatten() t(29,0,0) r(0,90,0) c(24,25); // bearing block
             flatten() t(-d,0,0) r(0,90,0) c(32,25); // bearing block
@@ -52,7 +49,7 @@ module frame(){
 module hingeBridge(){
     difference(){
         union(){
-            b(w+20,8,16); // beam
+            b(54,8,16); // beam
             flatten()  t(0,15,0) r(90,0,0) c(38,25); // bearing block
             t(0,15,-4) b(25,38,8); // make bearing block bottom square
         }
@@ -69,7 +66,7 @@ module hingeSide(){
     difference(){
         union(){
             r(0,90,0) c(8,28.8);  // pipe
-            t(0,30,0) b(8,38,h);  // side
+            t(0,30,0) b(8,38,16); // side
             t(0,52,0) b(8,10,10); // bridge connector
         }
         r(0,90,0) c(10,26);          // hinge hole
@@ -80,14 +77,14 @@ module hingeSide(){
 module hingeAssembly(){ // for visualization only
     color("yellow") t(21,0,0)  r(180,180,0) hingeSide();
     color("yellow") t(-21,0,0) r(180,0,0)   hingeSide();
-    color("green")  t(0,-(l-4),0)           hingeBridge();
+    color("green")  t(0,-53,0)              hingeBridge();
 }
 
 module legCap(){ // attaches pipe to lower joint
     flatten(21.5/2) // shave top off this cap level with pipe
     difference(){
         union(){
-            b(26,8,h);
+            b(26,8,16);
             t(0,6,0) r(90,0,0) c(20,25);
         }
         t(0,9,0)  r(90,0,0) c(20,22); // pipe mounting hole
@@ -133,7 +130,7 @@ module dgear2(){
     difference(){
         union(){
             bevel_gear(teeth=gteeth, mate_teeth=gteeth, mod=2, cutter_radius=0, spiral=0, shaft_diam=1);
-            t(0,0,-2.2) c(0.9,28); // disk stop
+            t(0,0,-2.2) c(0.9,27.3); // disk stop
         }
         b(shaft_hole,shaft_hole,20);
     }
@@ -144,7 +141,7 @@ module diskMount(){
     difference(){
         union(){
             t(0,0,0.75)  c(1.5, 25); // base for mounting a brake disk
-            t(0,0,-0.45) c(0.9,28);  // disk stop
+            t(0,0,-0.45) c(0.9,27.3);  // disk stop
         }
         b(shaft_hole,shaft_hole,20);
     }
@@ -186,9 +183,9 @@ if($preview){
     t(-75,-195,0) r(0,90,0)    cap();
     t(0,-260,0)   r(180,180,0) legCap();
 
-    t(11.5,-196,0)  r(0,-90,0)     gearAssembly();
-    t(0,-184,0)     r(90,360/26,0) gearAssembly(); // N teeth. rotate 1/2 tooth
-    t(-11.5,-196,0) r(0,90,0)      gearAssembly();
+    t(12,-196,0)  r(0,-90,0)     gearAssembly();
+    t(0,-184,0)   r(90,360/24,0) gearAssembly(); // N teeth. rotate 1/2 tooth
+    t(-12,-196,0) r(0,90,0)      gearAssembly();
 
 %   t(0,-360,0)   r(90,0,0) c(200,21.5); // pvc pipe
 %   t(0,-98,0)    r(90,0,0) c(140,21.5); // pvc pipe
@@ -207,7 +204,11 @@ if($preview){
     t(100,-40,0) r(0,90,90)  hingeSide(); // need two printed
     t(0,-50,0)   hingeBridge();
     frame();
-//    t(80,80,0)   dgear();
-//    t(40,80,0)   dgear();
-//    t(0,80,0)    dgear();
+
+    t(80,80,0)   dgear2();
+    t(40,80,0)   dgear2();
+    t(0,80,0)    dgear2();
+    t(80,110,0)  diskMount();
+    t(40,110,0)  diskMount();
+    t(0,110,0)   diskMount();
 }
