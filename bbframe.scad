@@ -35,6 +35,8 @@ module frame(){
             }
             flatten() t(29,0,0) r(0,90,0) c(24,25); // bearing block
             flatten() t(-d,0,0) r(0,90,0) c(32,25); // bearing block
+            t(29,30,0)  r(0,0,20)  b(8,45,8);       // ribs to make frame more rigid
+            t(-29,30,0) r(0,0,-20) b(8,45,8);
         }
         t(d,0,0)  r(0,90,0) c(29,22);  // pipe and bearing hole
         t(-d,0,0) r(0,90,0) c(29,22);  // bearing hole
@@ -140,8 +142,8 @@ module diskMount(){
     shaft_hole = shaft_square + 0.3; // + tolerance
     difference(){
         union(){
-            t(0,0,0.75)  c(1.5, 25); // base for mounting a brake disk
-            t(0,0,-0.45) c(0.9,27.3);  // disk stop
+            t(0,0,0.75)  c(1.5, 25);  // base for mounting a brake disk
+            t(0,0,-0.45) c(0.9,27.3); // disk stop
         }
         b(shaft_hole,shaft_hole,20);
     }
@@ -153,25 +155,25 @@ module gearAssembly(){ // for visualization only
 }
 
 module axle1(len){
-    t(0,0,3.5) b(shaft_square,shaft_square,len); // 1 gear mount
-    c(len-7,shaft_round);                        // bearings
+    t(0,0,17/2) b(shaft_square,shaft_square,17); // 1 gear mount
+    t(0,0,-16) c(32,shaft_round);                // bearings mount here
 }
 
 module axle2(len){
     b(shaft_square,shaft_square,len); // 2 gear mounts
-    c(len-14,shaft_round);            // bearings
+    c(len-14,shaft_round);            // bearings mount here
 }
 
 // spacer between two bearings around axle1() to lock bearings in place
-module sleve(){
-    pipe(14.1, 8.2+1.8, 8.2); // len, od, id // 0.9mm wall
+module sleve(len=14.1){
+    pipe(len, 8.2+1.8, 8.2); // len, od, id // 0.9mm wall
 }
 
 
 if($preview){
     color("red")  t(0,-97,0)    r(90,0,0) axle2(174);
-    color("red")  t(-50,-195,0) r(0,90,0) axle1(39); // 2 per joint. actual length
-    color("teal") t(-50,-195,0) r(0,90,0) sleve();   // spacer between bearings
+    color("red")  t(-50,-195,0) r(0,90,0) axle1(); // 2 per joint
+    color("teal") t(-64,-195,0) r(0,90,0) sleve(); // spacer between bearings
 
     t(120,0,0) r(90,90,0) frame();
     t(120,0,0) r(90,90,0) hingeAssembly();
@@ -193,15 +195,15 @@ if($preview){
 %   t(15,-195,0)  r(0,90,0) c(1.5,95);   // brake disk
 %   t(-15,-195,0) r(0,90,0) c(1.5,95);   // brake disk
 } else { // rendering for 3D printing
-    t(-50,50,0)  r(90,45,0) axle1(39); // fixed length for each joint
-    t(-70,50,0)  r(90,45,0) axle1(39); // need 2 per joint
-    t(-70,-20,0) sleve();              // need 2 per joint
+    t(-50,50,0)  r(90,45,0) axle1(); // fixed length for each joint
+    t(-70,50,0)  r(90,45,0) axle1(); // need 2 per joint
+    t(-70,-20,0) sleve();            // need 2 per joint
     t(-70,0,0)   sleve();
     // axle2(len) // len depends on PVC pipe length
     t(120,40,0)  cap();
     t(120,0,0)   r(90,0,0)   legCap();
     t(70,40,0)   r(180,90,0) hingeSide();
-    t(100,-40,0) r(0,90,90)  hingeSide(); // need two printed
+    t(100,-40,0) r(0,90,90)  hingeSide(); // need two per joint
     t(0,-50,0)   hingeBridge();
     frame();
 
@@ -211,4 +213,10 @@ if($preview){
     t(80,110,0)  diskMount();
     t(40,110,0)  diskMount();
     t(0,110,0)   diskMount();
+
+    // shaft spacers for testing
+              sleve(1.2);
+    t(10,0,0) sleve(2.1);
+    t(20,0,0) sleve(3.0);
+    t(30,0,0) sleve(3.9);
 }
