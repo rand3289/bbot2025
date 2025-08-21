@@ -44,7 +44,7 @@ module frame(){
         t(8,0,0)  r(90,0,0) c(200,3);  // bracket screw hole
         t(-8,0,0) r(90,0,0) c(200,3);  // bracket screw hole
         t(37,0,13.3) c(4,3);           // vertical screw hole in bearing block
-        t(37,0,0) r(90,0,0) c(100,3);  // horisontal screw hole in bearing block
+        t(37,-20,0) r(90,0,0) c(50,3); // horisontal screw hole in bearing block
     }
 }
 
@@ -106,6 +106,7 @@ module cap(){ // side cap for the lower joint
         t(0,0,4)   r(90,0,0) c(30,3); // 2 screw holes
         t(5,0,0)   c(20,3);           // bottom hole to help take out the bearing
         t(-5,0,0)  c(20,3);           // bottom hole
+        t(0,-12,4) b(8.2,6,10);       // cutout
     }
 }
 
@@ -210,13 +211,12 @@ if($preview){
     t(80,80,0)   dgear2();
     t(40,80,0)   dgear2();
     t(0,80,0)    dgear2();
-    t(80,110,0)  diskMount();
     t(40,110,0)  diskMount();
     t(0,110,0)   diskMount();
 
     // shaft spacers for testing
               sleve(1.2);
-    t(10,0,0) sleve(2.1);
-    t(20,0,0) sleve(3.0);
-    t(30,0,0) sleve(3.9);
+    t(0,12,0) sleve(2.1);
+    t(0,24,0) sleve(3.0);
+    t(0,36,0) sleve(3.9);
 }
