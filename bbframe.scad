@@ -87,27 +87,29 @@ module legCap(){ // attaches pipe to lower joint
     flatten(21.5/2) // shave top off this cap level with pipe
     difference(){
         union(){
-            b(26,8,16);
+            b(32,8,16);
             t(0,6,0) r(90,0,0) c(20,25);
         }
-        t(0,9,0)  r(90,0,0) c(20,22); // pipe mounting hole
-        t(0,10,0) r(0,90,0) c(30,3);  // pipe screw hole
-        t(0,10,0)           c(30,3);  // pipe screw hole
-        t(8,0,0)  r(90,0,0) c(20,3);  // leg attachment screw hole
-        t(-8,0,0) r(90,0,0) c(20,3);  // leg attachment screw hole
+        t(0,9,0)   r(90,0,0)   c(20,22); // pvc pipe hole
+        t(0,5,0)               c(30,3);  // pipe screw hole
+        r(0,120,0) t(0,10,10)  c(20,3);  // pipe screw hole
+        r(0,60,0)  t(0,10,-10) c(20,3);  // pipe screw hole
+        t(8,0,0)   r(90,0,0)   c(20,3);  // cap attachment screw hole
+        t(-8,0,0)  r(90,0,0)   c(20,3);  // cap attachment screw hole
     }
 }
 
 module cap(){ // side cap for the lower joint
     difference(){
-        c(16, 28);                    // cap body
-        t(0,0,1.5) c(16,22.2);        // bearing hole (.2 tolerance)
-        t(0,0,8.5) c(16,25);          // slides over bearing block
-        t(-10,0,4) r(0,90,0) c(30,3); // 1 screw hole
-        t(0,0,4)   r(90,0,0) c(30,3); // 2 screw holes
-        t(5,0,0)   c(20,3);           // bottom hole to help take out the bearing
-        t(-5,0,0)  c(20,3);           // bottom hole
-        t(0,-12,4) b(8.2,6,10);       // cutout
+        c(16, 28);                      // cap body
+        t(0,0,1.5)   c(16,22.2);        // bearing hole (.2 tolerance)
+        t(0,0,8.5)   c(16,25);          // slides over bearing block
+        t(0,-12,5)   b(8.2,6,7);        // side cutout
+        t(-10,0,4.5) r(0,90,0)   c(30,3); // top screw hole
+        r(90,0,30)   t(0,4.5,5)  c(20,3); // screw hole
+        r(90,0,-30)  t(0,4.5,-5) c(20,3); // screw hole
+        t(5,0,0)     c(20,3);           // bottom holes to help
+        t(-5,0,0)    c(20,3);           // take out bearing
     }
 }
 
@@ -184,6 +186,7 @@ if($preview){
     t(0,-195,0) r(0,0,180) frame();
     t(0,-195,0) r(0,0,180) hingeAssembly();
 
+//  t(33.5,0,0)    
     t(-75,-195,0) r(0,90,0)    cap();
     t(0,-260,0)   r(180,180,0) legCap();
 
