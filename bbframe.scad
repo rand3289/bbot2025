@@ -13,6 +13,7 @@ use <bcstr.scad> // b(),c(),s(),t(),r()
 include <BOSL2/std.scad>
 include <BOSL2/gears.scad>
 $fn=128; // make cylinders a bit rounder
+skipdraw = false; // allows quickly temporary disable drawing for debugging
 shaft_round = 8; // 608 bearings fit an 8mm round shaft
 // if you grind an end of a round shaft into a square, it will be this size
 shaft_square = sqrt(shaft_round*shaft_round/2);
@@ -54,15 +55,23 @@ module frame(){
 module hingeBridge(){
     difference(){
         union(){
-            b(54,8,16); // beam
+            b(58,8,16); // beam
             flatten()  t(0,15,0) r(90,0,0) c(38,25); // bearing block
             t(0,15,-4) b(25,38,8); // make bearing block bottom square
+
+            t(29,4,0)  b(8,16,16); // wing 1
+            t(29,12,0) r(45,0,0) b(8,11.3,11.3);
+
+            t(-29,4,0) b(8,16,16); // wing 2
+            t(-29,12,0)r(45,0,0) b(8,11.3,11.3);
         }
         t(0,11.5,0) r(90,0,0)  c(42,22); // pipe and bearing hole
         r(90,0,0)   c(100,11);           // shaft hole
-        t(21,0,0)   b(8.2,12,10.2);      // hole for hinges
-        t(-21,0,0)  b(8,12,10);          // hole for hinges
-        r(0,90,0)   c(60,3);             // 2 screw holes
+        t(20.95,0,0)   b(8.1,12,8.1);    // hole for hinges
+        t(-20.95,0,0)  b(8.1,12,8.1);    // hole for hinges
+        r(0,90,0)   c(70,3);             // 2 screw holes
+        t(25,13,0)  r(0,90,0) c(20,3);   // screw hole in wing
+        t(-25,13,0) r(0,90,0) c(20,3);   // screw hole in wing
         t(0,0,13.3) c(4,3);              // screw hole in bearing block. 13.3 for "print support"
     }
 }
@@ -72,12 +81,16 @@ module hingeSide(){
         union(){
             r(0,90,0) c(8,34);    // pipe
             t(0,30,0) b(8,38,16); // side
-            t(0,52,0) b(8,10,10); // bridge connector
+            t(0,52,0) b(8,10,8); // bridge connector
         }
         r(0,90,0) c(10,26);          // hinge hole
         t(0,53,0) r(0,90,0) c(10,3); // screw hole
+        t(0,40,0) r(0,90,0) c(10,3); // screw hole
     }
 }
+//t(21,0,0) hingeBridge();
+//t(0,53,0) r(0,0,180) hingeSide();
+//skipdraw=true;
 
 module hingeAssembly(){ // for visualization only
     color("yellow") t(21,0,0)  r(180,180,0) hingeSide();
@@ -173,6 +186,7 @@ module sleve(len=14.1){
 }
 
 
+if(!skipdraw){
 if($preview){
     color("red")  t(0,-97,0)    r(90,0,0) axle2(174);
     color("red")  t(-45,-195,0) r(0,90,0) axle1(); // 2 per joint
@@ -226,4 +240,5 @@ if($preview){
 //    t(0,12,0) sleve(2.1);
 //    t(0,24,0) sleve(3.0);
 //    t(0,36,0) sleve(3.9);
-}
+} // if($preview)
+} // skipdraw
