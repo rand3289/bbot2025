@@ -55,9 +55,10 @@ module frame(){
 module hingeBridge(){
     difference(){
         union(){
-            b(58,8,16); // beam
-            flatten()  t(0,15,0) r(90,0,0) c(38,25); // bearing block
-            t(0,15,-4) b(25,38,8); // make bearing block bottom square
+            t(0,-0.5,0) b(66,9,16); // beam
+            flatten()  t(0,14.5,0) r(90,0,0) c(39,25); // bearing block
+            t(0,15,-4) b(25,38,8); // makes bearing block bottom square
+            t(0,0,10) b(66,4,5);   // top bar for rigidity
 
             t(29,4,0)  b(8,16,16); // wing 1
             t(29,12,0) r(45,0,0) b(8,11.3,11.3);
@@ -67,12 +68,12 @@ module hingeBridge(){
         }
         t(0,11.5,0) r(90,0,0)  c(42,22); // pipe and bearing hole
         r(90,0,0)   c(100,11);           // shaft hole
-        t(20.95,0,0)   b(8.1,12,8.1);    // hole for hinges
-        t(-20.95,0,0)  b(8.1,12,8.1);    // hole for hinges
+        t(20.95,0,0)   b(8.1,8.1,8.1);   // hole for hinges
+        t(-20.95,0,0)  b(8.1,8.1,8.1);   // hole for hinges
         r(0,90,0)   c(70,3);             // 2 screw holes
         t(25,13,0)  r(0,90,0) c(20,3);   // screw hole in wing
         t(-25,13,0) r(0,90,0) c(20,3);   // screw hole in wing
-        t(0,0,13.3) c(4,3);              // screw hole in bearing block. 13.3 for "print support"
+        t(0,20,13.3) c(4,3);              // screw hole in bearing block. 13.3 for "print support"
     }
 }
 
@@ -88,9 +89,9 @@ module hingeSide(){
         t(0,40,0) r(0,90,0) c(10,3); // screw hole
     }
 }
-//t(21,0,0) hingeBridge();
-//t(0,53,0) r(0,0,180) hingeSide();
-//skipdraw=true;
+// skipdraw=true; // display just this:
+// t(21,0,0) hingeBridge();
+// t(0,53,0) r(0,0,180) hingeSide();
 
 module hingeAssembly(){ // for visualization only
     color("yellow") t(21,0,0)  r(180,180,0) hingeSide();
@@ -186,7 +187,7 @@ module sleve(len=14.1){
 }
 
 
-if(!skipdraw){
+if(!skipdraw){ // set skipdraw=true for quick debugging of individual parts
 if($preview){
     color("red")  t(0,-97,0)    r(90,0,0) axle2(174);
     color("red")  t(-45,-195,0) r(0,90,0) axle1(); // 2 per joint
@@ -226,8 +227,8 @@ if($preview){
     frame();
     t(-70,-20,0) r(90,0,90)  stiffBar();
     t(70,40,0)   r(180,90,0) hingeSide();
-    t(100,-40,0) r(0,90,90)  hingeSide(); // need two per joint
-    t(0,-50,0)   hingeBridge();
+    t(110,-40,0) r(0,90,90)  hingeSide(); // need two per joint
+    t(10,-50,0)   hingeBridge();
 
     t(70,80,0)   dgear();
     t(30,80,0)   dgear();
