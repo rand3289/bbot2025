@@ -181,7 +181,7 @@ module axle2(len){
 
 // spacer between two bearings around axle1() to lock bearings in place
 module sleve(len=14.1){
-    pipe(len, 8.2+1.8, 8.2); // len, od, id // 0.9mm wall
+    pipe(len, 8.4+1.8, 8.4); // len, od, id // 0.9mm wall
 }
 
 
