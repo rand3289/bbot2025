@@ -27,53 +27,51 @@ module flatten(top=8){ // remove everything below top
 }
 
 module frame(){
-    d = 33;
     difference(){
         union(){
             difference(){
-                t(0,28.5,0) b(66,57,16); // c-frame
-                b(50,98,17);
+                t(0,28.5,0) b(68,57,16); // c-frame
+                b(52,98,17);
             }
-            flatten() t(29,0,0) r(0,90,0) c(24,25); // bearing block
-            flatten() t(-d,0,0) r(0,90,0) c(32,25); // bearing block
-            t(29,30,0)  r(0,0,20)  b(8,45,8);       // ribs to make frame more rigid
-            t(-29,30,0) r(0,0,-20) b(8,45,8);
+            flatten() t(30,0,0) r(0,90,0) c(24,25);  // bearing block
+            flatten() t(-34,0,0) r(0,90,0) c(32,25); // bearing block
+            t(30,30,0)  r(0,0,20)  b(8,45,8);        // ribs to make frame more rigid
+            t(-30,30,0) r(0,0,-20) b(8,45,8);
         }
-        t(d,0,0)  r(0,90,0) c(29,22);  // pipe and bearing hole
-        t(-d,0,0) r(0,90,0) c(29,22);  // bearing hole
-        t(5,0,0)  r(0,90,0) c(100,11); // shaft hole
-        t(8,50,0)   r(90,0,0) c(20,3); // bracket screw hole center
-        t(-8,50,0)  r(90,0,0) c(20,3); // bracket screw hole center
-        t(28,45,0)  r(90,0,0) c(30,3); // bracket screw hole side
-        t(-28,45,0) r(90,0,0) c(30,3); // bracket screw hole side
-        t(37,0,13.3) c(4,3);           // vertical screw hole in bearing block
-        r(60,0,0)  t(37,0,-10) c(20,3);// screw hole in bearing block
-        r(-60,0,0) t(37,0,-10) c(20,3);// screw hole in bearing block
+        t(34,0,0)    r(0,90,0) c(29,22);  // pipe and bearing hole
+        t(-34,0,0)   r(0,90,0) c(29,22);  // bearing hole
+        t(5,0,0)     r(0,90,0) c(100,11); // shaft hole
+        t(0,50,0)    r(90,0,0) c(20,3);   // bracket screw hole center
+        t(29,45,0)   r(90,0,0) c(30,3);   // bracket screw hole side
+        t(-29,45,0)  r(90,0,0) c(30,3);   // bracket screw hole side
+        t(38,0,13.3) c(4,3);              // vertical screw hole in bearing block
+        r(60,0,0)    t(38,0,-10) c(20,3); // screw hole in bearing block
+        r(-60,0,0)   t(38,0,-10) c(20,3); // screw hole in bearing block
     }
 }
 
 module hingeBridge(){
     difference(){
         union(){
-            t(0,-0.5,0) b(66,9,16); // beam
-            flatten()  t(0,14.5,0) r(90,0,0) c(39,25); // bearing block
-            t(0,15,-4) b(25,38,8); // makes bearing block bottom square
-            t(0,0,10) b(66,4,5);   // top bar for rigidity
+            t(0,-0.5,0) b(68,9,16); // beam
+            flatten()   t(0,14.5,0) r(90,0,0) c(39,25); // bearing block
+            t(0,15,-4)  b(25,38,8); // makes bearing block bottom square
+            t(0,0,10)   b(68,4,5);  // top bar for rigidity
 
-            t(29,4,0)  b(8,16,16); // wing 1
-            t(29,12,0) r(45,0,0) b(8,11.3,11.3);
+            t(30,4,0)   b(8,16,16); // wing 1
+            t(30,12,0)  r(45,0,0) b(8,11.3,11.3);
 
-            t(-29,4,0) b(8,16,16); // wing 2
-            t(-29,12,0)r(45,0,0) b(8,11.3,11.3);
+            t(-30,4,0)  b(8,16,16); // wing 2
+            t(-30,12,0) r(45,0,0) b(8,11.3,11.3);
         }
-        t(0,11.5,0) r(90,0,0)  c(42,22); // pipe and bearing hole
-        r(90,0,0)   c(100,11);           // shaft hole
-        t(20.95,0,0)   b(8.1,8.1,8.1);   // hole for hinges
-        t(-20.95,0,0)  b(8.1,8.1,8.1);   // hole for hinges
-        r(0,90,0)   c(70,3);             // 2 screw holes
-        t(25,13,0)  r(0,90,0) c(20,3);   // screw hole in wing
-        t(-25,13,0) r(0,90,0) c(20,3);   // screw hole in wing
-        t(0,20,13.3) c(4,3);              // screw hole in bearing block. 13.3 for "print support"
+        t(0,11.5,0)   r(90,0,0) c(42,22); // pipe and bearing hole
+        r(90,0,0)     c(100,11);          // shaft hole
+        t(0,20,13.3)  c(4,3);             // screw hole in bearing block. 13.3 for "print support"
+        t(21.95,0,0)  b(8.1,8.1,8.1);     // cube hole for hinges
+        t(-21.95,0,0) b(8.1,8.1,8.1);     // cube hole for hinges
+        r(0,90,0)     c(70,3);            // 2 screw holes
+        t(25,13,0)    r(0,90,0) c(20,3);  // screw hole in wing
+        t(-25,13,0)   r(0,90,0) c(20,3);  // screw hole in wing
     }
 }
 
@@ -82,7 +80,7 @@ module hingeSide(){
         union(){
             r(0,90,0) c(8,34);    // pipe
             t(0,30,0) b(8,38,16); // side
-            t(0,52,0) b(8,10,8); // bridge connector
+            t(0,52,0) b(8,10,8);  // bridge connector
         }
         r(0,90,0) c(10,26);          // hinge hole
         t(0,53,0) r(0,90,0) c(10,3); // screw hole
@@ -94,8 +92,8 @@ module hingeSide(){
 // t(0,53,0) r(0,0,180) hingeSide();
 
 module hingeAssembly(){ // for visualization only
-    color("yellow") t(21,0,0)  r(180,180,0) hingeSide();
-    color("yellow") t(-21,0,0) r(180,0,0)   hingeSide();
+    color("yellow") t(22,0,0)  r(180,180,0) hingeSide();
+    color("yellow") t(-22,0,0) r(180,0,0)   hingeSide();
     color("green")  t(0,-53,0)              hingeBridge();
 }
 
@@ -134,11 +132,10 @@ module cap(){ // side cap for the lower joint
 
 module stiffBar(){
     difference(){
-        b(66,8,8);
-        t(8,0,0)   r(90,0,0) c(20,3);    // side screw hole
-        t(-8,0,0)  r(90,0,0) c(20,3);    // side screw hole
-        t(28,0,0)  r(90,0,0) c(20,3);    // side screw hole
-        t(-28,0,0) r(90,0,0) c(20,3);    // side screw hole
+        b(68,8,8);
+        t(29,0,0)  r(90,0,0) c(20,3); // side screw hole
+        t(-29,0,0) r(90,0,0) c(20,3); // side screw hole
+                   r(90,0,0) c(20,3); // center screw hole
     }
 }
 
