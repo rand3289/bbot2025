@@ -47,6 +47,8 @@ module frame(){
         t(38,0,13.3) c(4,3);              // vertical screw hole in bearing block
         r(60,0,0)    t(38,0,-10) c(20,3); // screw hole in bearing block
         r(-60,0,0)   t(38,0,-10) c(20,3); // screw hole in bearing block
+        t(30,52,0)   r(0,90,0) c(12,3);   // screw holes for bolting
+        t(-30,52,0)  r(0,90,0) c(12,3);   // two frames together
     }
 }
 
