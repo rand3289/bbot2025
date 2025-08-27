@@ -109,10 +109,9 @@ module legCap(){ // attaches pipe to lower joint
         t(0,5,0)               c(30,3);  // pipe screw hole
         r(0,120,0) t(0,10,10)  c(20,3);  // pipe screw hole
         r(0,60,0)  t(0,10,-10) c(20,3);  // pipe screw hole
-        t(8,0,0)   r(90,0,0)   c(20,3);  // center screw hole
-        t(-8,0,0)  r(90,0,0)   c(20,3);  // center screw hole
-        t(28,0,0)  r(90,0,0) c(20,3);    // side screw hole
-        t(-28,0,0) r(90,0,0) c(20,3);    // side screw hole
+                   r(90,0,0)   c(20,3);  // center screw hole
+        t(29,0,0)  r(90,0,0) c(20,3);    // side screw hole
+        t(-29,0,0) r(90,0,0) c(20,3);    // side screw hole
     }
 }
 
