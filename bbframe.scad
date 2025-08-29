@@ -68,7 +68,7 @@ module hingeBridge(){
         }
         t(0,11.5,0)   r(90,0,0) c(42,22); // pipe and bearing hole
         r(90,0,0)     c(100,11);          // shaft hole
-        t(0,20,13.3)  c(4,3);             // screw hole in bearing block. 13.3 for "print support"
+        t(0,18,13.3)  c(4,3);             // screw hole in bearing block. 13.3 for "print support"
         t(21.95,0,0)  b(8.1,8.1,8.1);     // cube hole for hinges
         t(-21.95,0,0) b(8.1,8.1,8.1);     // cube hole for hinges
         r(0,90,0)     c(70,3);            // 2 screw holes
@@ -219,6 +219,7 @@ if($preview){
     t(-70,45,0)  r(90,45,0) axle1(); // need 2 per joint
     t(-70,90,0)  sleve();            // need 2 per joint
     t(-50,90,0)  sleve();
+    sleve(7.5); // shaft spacer between gear and bearing
     t(110,80,0)  cap();
     t(110,20,0)  r(90,0,-90) legCap();
 
@@ -226,18 +227,12 @@ if($preview){
     t(-70,-20,0) r(90,0,90)  stiffBar();
     t(70,40,0)   r(180,90,0) hingeSide();
     t(110,-40,0) r(0,90,90)  hingeSide(); // need two per joint
-    t(10,-50,0)   hingeBridge();
+    t(10,-50,0)  hingeBridge();
 
     t(70,80,0)   dgear();
     t(30,80,0)   dgear();
     t(-10,80,0)  dgear();
     t(0,25,0)    diskMount();
     t(-45,-35,0) diskMount();
-
-    // shaft spacers for testing
-//              sleve(1.2);
-//    t(0,12,0) sleve(2.1);
-//    t(0,24,0) sleve(3.0);
-//    t(0,36,0) sleve(3.9);
 } // if($preview)
 } // skipdraw
