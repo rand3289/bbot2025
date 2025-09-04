@@ -157,12 +157,19 @@ module diskMount(){
     shaft_hole = shaft_square + 0.3; // + tolerance
     difference(){
         union(){
+            intersection(){
+                t(0,7.5,0.75) b(2,15,1.5); // key
+                c(5,27.3);
+            }
             t(0,0,0.75)  c(1.5, 25);  // base for mounting a brake disk
             t(0,0,-0.45) c(0.9,27.3); // disk stop
         }
         b(shaft_hole,shaft_hole,20);
     }
 }
+
+// skipdraw=true;
+// diskMount();
 
 module gearAssembly(){ // for visualization only
     dgear();
