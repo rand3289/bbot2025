@@ -168,9 +168,6 @@ module diskMount(){
     }
 }
 
-// skipdraw=true;
-// diskMount();
-
 module gearAssembly(){ // for visualization only
     dgear();
     t(0,0,-4.1) diskMount();
@@ -185,6 +182,8 @@ module axle2(len){
     b(shaft_square,shaft_square,len); // 2 gear mounts
     c(len-14,shaft_round);            // bearings mount here
 }
+// skipdraw=true;
+// r(90,45,0) axle2(154);
 
 // spacer between two bearings around axle1() to lock bearings in place
 module sleve(len=14.1){
