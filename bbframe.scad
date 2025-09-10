@@ -12,10 +12,10 @@
 use <bcstr.scad> // b(),c(),s(),t(),r()
 include <BOSL2/std.scad>
 include <BOSL2/gears.scad>
-$fn=128; // make cylinders a bit rounder
-skipdraw = false; // allows quickly temporary disable drawing for debugging
-shaft_round = 8; // 608 bearings fit an 8mm round shaft
-// if you grind an end of a round shaft into a square, it will be this size
+$fn=128;          // make cylinders a bit rounder
+skipdraw = false; // disable rendering the main view for debugging
+shaft_round = 8;  // 608 bearings fit an 8mm round shaft
+// if you grind the end of an 8mm round shaft into a square, it will be this size
 shaft_square = sqrt(shaft_round*shaft_round/2);
 echo("Shaft end square size", shaft_square);
 
